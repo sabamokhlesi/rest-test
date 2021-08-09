@@ -1,49 +1,33 @@
-import React, { useCallback, useState, useEffect } from 'react'
-import { Route, Switch, useHistory, useRouteMatch } from 'react-router-dom'
-import Pagination from '../components/pagination/Pagination'
-import Table from '../components/table/Table'
+import React, { useCallback, useState } from 'react';
+import { Route, Switch, useRouteMatch } from 'react-router-dom';
+import Pagination from '../components/pagination/Pagination';
+import Table from '../components/table/Table';
 
 function TransactionsPage() {
     const match = useRouteMatch();
+    
+    // transactions will be used to cache the network request results
+    const [transactions, setTransactions] = useState({});
+    const [numberOfPages, setNumberOfPages] = useState(0);
 
-    const [transactions, setTransactions] = useState({})
-    const [numberOfPages, setNumberOfPages] = useState(0)
-    const [totalAmount, setTotalAmount] = useState(0)
-
-    const history = useHistory();
-    const currentPath = history.location.pathname
-
+    // We are using useCallback to memoize the updateTransactions function to prevent unnecessary rerenders
     const updateTransactions = useCallback(
         (data , pageNumber) => {
             setTransactions((curState) => {
-                const newState = {...curState}
+                const newState = {...curState};
                 newState[pageNumber] = data.transactions;
                 return newState;
             })
         },
         [],
-    )
+    );
 
     const updateNumberOfPages = useCallback(
         (n) => {
             setNumberOfPages(n)
         },
         [],
-    )
-    
-    useEffect(() => {
-       const currentPage = currentPath.substring(currentPath.lastIndexOf('/') + 1);
-       if (transactions[currentPage]) {
-            setTotalAmount((currState) => {
-                  let newTotalAmount = currState
-                  transactions[currentPage].forEach((trx) => {                        
-                        newTotalAmount+=parseFloat(trx.Amount)      
-                  })
-                  return newTotalAmount;
-                })        
-      }
-          
-    }, [transactions, currentPath])
+    );
 
     return (
         <div>
@@ -53,7 +37,6 @@ function TransactionsPage() {
                         updateTransactions={updateTransactions} 
                         transactions={transactions} 
                         updateNumberOfPages={updateNumberOfPages}
-                        totalAmount={totalAmount.toFixed(2)}
                     />
                 </Route>
             </Switch>
@@ -62,4 +45,4 @@ function TransactionsPage() {
     )
 }
 
-export default TransactionsPage
+export default TransactionsPage;

@@ -9,32 +9,24 @@ table {
 	margin:50px auto;
       box-shadow: 0 0px 5px rgba(0, 0, 0, 0.14);
 	padding-left: 15px;
-	}
+}
 
 td, th { 
 	padding: 10px; 
-	border-bottom: 1px solid rgba(204, 204, 204, 0.432); 
+	border-bottom: 1px solid rgba(199, 199, 199, 0.432); 
 	text-align: left; 
 	font-size: 18px;
-      background-color: #fdfdfdb0;
-	}
+      background-color: #f7f7f7d2;
+}
 th { 
       background-color: white; 
       color: #0A8B8C; 
       font-weight: bold; 
-      }
-/* 
-Max width before this PARTICULAR table gets nasty
-This query will take effect for any screen smaller than 760px
-and also iPads specifically.
-*/
+}
+
 @media 
 only screen and (max-width: 760px),
-(min-device-width: 768px) and (max-device-width: 1024px)  {
-
-	table { 
-	  	width: 100%; 
-	}
+(min-device-width: 1024px) and (max-device-width: 1300px)  {
 
 	/* Force table to not be like tables anymore */
 	table, thead, tbody, th, td, tr { 
