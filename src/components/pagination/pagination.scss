@@ -1,4 +1,29 @@
 .pagination {
       width: 100%;
       text-align: center;
+      display: flex;
+      justify-content: center;
+
+      a {
+            text-decoration: none;
+            color: inherit;
+      }
+}
+
+.pagination-number {
+      width: 25px;
+      height: 25px;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+}
+
+.pagination-arrow {
+      font-size: 25px;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      height: 20px;
 }

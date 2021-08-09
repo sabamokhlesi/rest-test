@@ -14,32 +14,23 @@ const Pagination = React.memo(
         <Link
             to={`${match.url}/${pageNumber}`}
             key={pageNumber}>
-              <button
-                  style={{backgroundColor: +currentPageNumber === +pageNumber? 'pink': 'white'}}>
+              <span className="pagination-number"
+                  style={{backgroundColor: +currentPageNumber === +pageNumber? '#b5d8d8': 'white'}}>
                     {pageNumber}
-              </button>
+              </span>
         </Link>
       )
     };
 
-    // const generatePaginationBtns = (numberOfPages) => {
-    //     let btnsArray = []
-    //     for (let i = 1; i <= numberOfPages; i++) {
-    //         const btn = createBtn(i);   
-    //         btnsArray.push(btn);             
-    //     }
-    //     return btnsArray
-    // }
-
     return (
         <div className='pagination'>
-          {currentPageNumber > 1 && <button onClick={()=> history.push(`/transactions/${+currentPageNumber-1}`)}>Previous</button>}
-          {currentPageNumber > 2 && <span>...</span>}
+          {currentPageNumber > 1 && <span className="pagination-arrow" onClick={()=> history.push(`/transactions/${+currentPageNumber-1}`)}>&#8249;</span>}
+          {currentPageNumber > 2 && <span className="pagination-number">...</span>}
           {numberOfPages > 0 && currentPageNumber > 1 && createBtn(currentPageNumber-1)}
           {numberOfPages && createBtn(currentPageNumber)}
           {numberOfPages-currentPageNumber > 0 && createBtn(+currentPageNumber+1)}
-          {numberOfPages-currentPageNumber > 1 && <span>...</span>}
-          {numberOfPages-currentPageNumber > 0 && <button onClick={()=> history.push(`/transactions/${+currentPageNumber+1}`)}>Next</button>}
+          {numberOfPages-currentPageNumber > 1 && <span className="pagination-number">...</span>}
+          {numberOfPages-currentPageNumber > 0 && <span className="pagination-arrow" onClick={()=> history.push(`/transactions/${+currentPageNumber+1}`)}>&#8250;</span>}
         </div>
     )
 })

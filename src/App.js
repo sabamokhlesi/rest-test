@@ -5,8 +5,10 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
-import TransactionsPage from './containers/TransactionsPage'
+import TransactionsPage from './containers/TransactionsPage';
 import Header from './components/header/Header';
+import NotFoundPage from './components/notFoundPage/NotFoundPage';
+import ServerErrorPage from './components/serverErrorPage/ServerErrorPage';
 
 function App() {
   return (
@@ -15,6 +17,12 @@ function App() {
       <Switch>
         <Route path="/transactions">
             <TransactionsPage/>
+        </Route>
+        <Route path="/notFound">
+            <NotFoundPage/>
+        </Route>
+        <Route path="/serverError">
+            <ServerErrorPage/>
         </Route>
         <Redirect to='/transactions/1'/>
       </Switch>
