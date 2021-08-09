@@ -1,5 +1,5 @@
-import React, { useCallback, useState } from 'react'
-import { Route, Switch, useRouteMatch } from 'react-router-dom'
+import React, { useCallback, useState, useEffect } from 'react'
+import { Route, Switch, useHistory, useRouteMatch } from 'react-router-dom'
 import Pagination from '../components/pagination/Pagination'
 import Table from '../components/table/Table'
 
@@ -8,6 +8,10 @@ function TransactionsPage() {
 
     const [transactions, setTransactions] = useState({})
     const [numberOfPages, setNumberOfPages] = useState(0)
+    const [totalAmount, setTotalAmount] = useState(0)
+
+    const history = useHistory();
+    const currentPath = history.location.pathname
 
     const updateTransactions = useCallback(
         (data , pageNumber) => {
@@ -26,6 +30,20 @@ function TransactionsPage() {
         },
         [],
     )
+    
+    useEffect(() => {
+       const currentPage = currentPath.substring(currentPath.lastIndexOf('/') + 1);
+       if (transactions[currentPage]) {
+            setTotalAmount((currState) => {
+                  let newTotalAmount = currState
+                  transactions[currentPage].forEach((trx) => {                        
+                        newTotalAmount+=parseFloat(trx.Amount)      
+                  })
+                  return newTotalAmount;
+                })        
+      }
+          
+    }, [transactions, currentPath])
 
     return (
         <div>
@@ -35,6 +53,7 @@ function TransactionsPage() {
                         updateTransactions={updateTransactions} 
                         transactions={transactions} 
                         updateNumberOfPages={updateNumberOfPages}
+                        totalAmount={totalAmount.toFixed(2)}
                     />
                 </Route>
             </Switch>

@@ -1,25 +1,45 @@
 import './pagination.scss';
 import React from 'react'
-import { Link, useHistory, useParams, useRouteMatch } from 'react-router-dom';
+import { Link, useHistory, useRouteMatch } from 'react-router-dom';
 
 const Pagination = React.memo(
     function ({numberOfPages}) {
     const match = useRouteMatch();
     const history = useHistory();
-    const currentPath = history.location.pathname
-    const generatePaginationBtns = (numberOfPages) => {
-        let btnsArray = []
-        console.log(currentPath.substring(currentPath.lastIndexOf('/') + 1))
-        for (let i = 1; i <= numberOfPages; i++) {
-            const btn = <Link to={`${match.url}/${i}`} key={i}><button style={{backgroundColor: currentPath.substring(currentPath.lastIndexOf('/') + 1) == i? 'pink': 'white'}}>{i}</button></Link>;   
-            btnsArray.push(btn);             
-        }
+    const currentPath = history.location.pathname;
+    const currentPageNumber = currentPath.substring(currentPath.lastIndexOf('/') + 1)
 
-        return btnsArray
-    }
+    const createBtn = (pageNumber) => {
+      return (
+        <Link
+            to={`${match.url}/${pageNumber}`}
+            key={pageNumber}>
+              <button
+                  style={{backgroundColor: +currentPageNumber === +pageNumber? 'pink': 'white'}}>
+                    {pageNumber}
+              </button>
+        </Link>
+      )
+    };
+
+    // const generatePaginationBtns = (numberOfPages) => {
+    //     let btnsArray = []
+    //     for (let i = 1; i <= numberOfPages; i++) {
+    //         const btn = createBtn(i);   
+    //         btnsArray.push(btn);             
+    //     }
+    //     return btnsArray
+    // }
+
     return (
-        <div>
-            {generatePaginationBtns(numberOfPages).map((btn) => btn)}
+        <div className='pagination'>
+          {currentPageNumber > 1 && <button onClick={()=> history.push(`/transactions/${+currentPageNumber-1}`)}>Previous</button>}
+          {currentPageNumber > 2 && <span>...</span>}
+          {numberOfPages > 0 && currentPageNumber > 1 && createBtn(currentPageNumber-1)}
+          {numberOfPages && createBtn(currentPageNumber)}
+          {numberOfPages-currentPageNumber > 0 && createBtn(+currentPageNumber+1)}
+          {numberOfPages-currentPageNumber > 1 && <span>...</span>}
+          {numberOfPages-currentPageNumber > 0 && <button onClick={()=> history.push(`/transactions/${+currentPageNumber+1}`)}>Next</button>}
         </div>
     )
 })

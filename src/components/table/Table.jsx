@@ -1,6 +1,7 @@
 import './table.scss';
 import React, { useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom';
+import Spinner from '../spinner/Spinner'
 
 const Table = React.memo(function ({ updateTransactions , transactions  , updateNumberOfPages , totalAmount}) {
     let { pageNumber } = useParams();
@@ -47,26 +48,27 @@ const Table = React.memo(function ({ updateTransactions , transactions  , update
 
     return (
       <div className='transactions-table'>
-        <table>
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Company</th>
-              <th>Account</th>
-              <th>{totalAmount}</th>
-            </tr>
-          </thead>
-          <tbody>
-            {currentPageTransactions?.map( transaction => {
-              return (<tr key={Math.random()} style={{color: transaction.Amount > 0? '#0A8B8C': 'black' }}>
-                      <td data-column='Date'><span style={{opacity: '70%'}}>{transaction.Date}</span></td>
-                      <td data-column='Company'>{transaction.Company}</td>
-                      <td data-column='Account'><span style={{opacity: '70%'}}>{transaction.Ledger}</span></td>
-                      <td data-column='Amount'>{transaction.Amount}</td>
-                    </tr>)
-            })}
-          </tbody>
-        </table>
+        {loading? <Spinner/>
+          :<table>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Company</th>
+                <th>Account</th>
+                <th>{totalAmount}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {currentPageTransactions?.map( transaction => {
+                return (<tr key={Math.random()} style={{color: transaction.Amount > 0? '#0A8B8C': 'black' }}>
+                        <td data-column='Date'><span style={{opacity: '70%'}}>{transaction.Date}</span></td>
+                        <td data-column='Company'>{transaction.Company}</td>
+                        <td data-column='Account'><span style={{opacity: '70%'}}>{transaction.Ledger}</span></td>
+                        <td data-column='Amount'>{transaction.Amount}</td>
+                      </tr>)
+              })}
+            </tbody>
+          </table>}
       </div>
     )
 })
